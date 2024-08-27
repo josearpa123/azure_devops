@@ -1,17 +1,14 @@
 import Link from "next/link";
 import dbConnect from "../lib/dbConnect";
 import Pet from "../models/Pet";
-
-// TODO: Import Hours component
+import Hours from "../components/Hours"; // Importa el componente Hours
 
 const Index = ({ pets }) => {
-
   return (
     <>
+      <Hours /> {/* Añade el componente Hours aquí */}
 
-      {/* TODO: Display Hours component */}
-
-      {/* Create a card for each pet */}
+      {/* Crea una tarjeta para cada mascota */}
       {pets.map((pet) => (
         <div key={pet._id}>
           <div className="card">
@@ -21,12 +18,12 @@ const Index = ({ pets }) => {
               <p className="pet-name">{pet.name}</p>
               <p className="owner">Owner: {pet.owner_name}</p>
 
-              {/* Extra Pet Info: Likes and Dislikes */}
+              {/* Información adicional de la mascota: Gustos y Disgustos */}
               <div className="likes info">
                 <p className="label">Likes</p>
                 <ul>
                   {pet.likes.map((data, index) => (
-                    <li key={index}>{data} </li>
+                    <li key={index}>{data}</li>
                   ))}
                 </ul>
               </div>
@@ -34,7 +31,7 @@ const Index = ({ pets }) => {
                 <p className="label">Dislikes</p>
                 <ul>
                   {pet.dislikes.map((data, index) => (
-                    <li key={index}>{data} </li>
+                    <li key={index}>{data}</li>
                   ))}
                 </ul>
               </div>
@@ -55,11 +52,11 @@ const Index = ({ pets }) => {
   );
 };
 
-/* Retrieves pet(s) data from mongodb database */
+/* Recupera datos de la(s) mascota(s) desde la base de datos MongoDB */
 export async function getServerSideProps() {
   await dbConnect();
 
-  /* find all the data in our database */
+  /* Busca todos los datos en la base de datos */
   const result = await Pet.find({});
   const pets = result.map((doc) => {
     const pet = doc.toObject();
